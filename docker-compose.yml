@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: zife-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: zife
+      POSTGRES_PASSWORD: zife123
+      POSTGRES_DB: zife_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - zife-postgres-data:/var/lib/postgresql/data
+
+volumes:
+  zife-postgres-data:
