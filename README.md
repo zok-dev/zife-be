@@ -14,3 +14,8 @@ src/../services: Encargada de las operaciones del negocio
 src/../entities: Encargada de la estructura de la db
 src/../modules: Encargada del mapeo de los datos a la db
 
+## En caso de problemas con la base de datos por problemas de zona horaria
+ 
+### Ejecuta este comando pajero:
+docker exec -it --user root mi_proyecto_postgres bash -c "ln -sf /usr/share/zoneinfo/America/Argentina/Buenos_Aires /usr/share/zoneinfo/America/Buenos_Aires"
+

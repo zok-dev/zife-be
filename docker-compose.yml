@@ -1,18 +1,45 @@
-version: '3.8'
-
 services:
   postgres:
-    image: postgres:16
-    container_name: zife-postgres
+    image: postgres:15
+    container_name: mi_proyecto_postgres
     restart: always
-    environment:
-      POSTGRES_USER: zife
-      POSTGRES_PASSWORD: zife123
-      POSTGRES_DB: zife_db
     ports:
-      - "5432:5432"
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: ${DB_USER:-zife}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-zife123}
+      POSTGRES_DB: ${DB_NAME:-zife_db}
+      TZ: America/Argentina/Buenos_Aires
+      PGTZ: America/Argentina/Buenos_Aires
     volumes:
-      - zife-postgres-data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - backend-net
+
+  app:
+    build: .
+    container_name: mi_proyecto_backend
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - postgres
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: ${DB_USER:-zife}
+      DB_PASSWORD: ${DB_PASSWORD:-zife123}
+      DB_NAME: ${DB_NAME:-zife_db}
+      DATABASE_URL: postgres://${DB_USER:-zife}:${DB_PASSWORD:-zife123}@postgres:5432/${DB_NAME:-zife_db}
+    command: npm run start:dev
+    networks:
+      - backend-net
 
 volumes:
-  zife-postgres-data:
+  postgres-data:
+
+networks:
+  backend-net:
+    driver: bridge
