@@ -1,5 +1,6 @@
 import { IsNumber } from "class-validator";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { hBooks } from "src/hBooks/hBooks.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Book {
@@ -16,6 +17,8 @@ export class Book {
     areaBook?: string;
     @Column()
     dateBook?: Date;
+    @OneToMany(() => hBooks, (hbook) => hbook.idBook)
+    historyBook!: hBooks[];
     constructor(partial?: Partial<Book>) {
         Object.assign(this, partial);
     }

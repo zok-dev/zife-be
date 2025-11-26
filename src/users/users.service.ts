@@ -22,6 +22,9 @@ export class UsersService {
   findOne(idUser: number) {
     return this.usersRepository.findOneBy({ idUser });
   }
+  findOneByEmail(emailUser: string) {
+    return this.usersRepository.findOneBy({ emailUser });
+  }
   delete(idUser: number) {
     return this.usersRepository.delete(idUser);
   }

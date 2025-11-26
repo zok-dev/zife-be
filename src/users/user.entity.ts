@@ -18,7 +18,13 @@ export class User {
   emailUser?: string;
 
   @Column()
-  passwordUser?: string;
+  passwordHashUser?: string | null;
+
+  @Column() 
+  refreshToken?: string | null;
+
+  @Column({default: 'user'})
+  typeUser!: 'admin' | 'user';
 
   constructor(partial?: Partial<User>) {
     Object.assign(this, partial);
